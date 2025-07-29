@@ -13,108 +13,129 @@
 						<div class="network-header">
 							<strong>{{ net.ssid }}</strong>
 						</div>
-						
+
 						{% if net.signal >=80 %}
-							<div class="signal">Signal: {{ net.signal }}% 
-								{% if net.secure %}| <span class="mdi mdi-wifi-strength-4-lock"></span>
-								{% else %}| <span class="mdi mdi-wifi-strength-4"></span>
-								{% endif %}
-							</div>
+						<div class="signal">Signal: {{ net.signal }}%
+							{% if net.secure %}| <span class="mdi mdi-wifi-strength-4-lock"></span>
+							{% else %}| <span class="mdi mdi-wifi-strength-4"></span>
+							{% endif %}
+						</div>
 						{% elif net.signal >=60 and net.signal < 80 %}
 							<div class="signal">Signal: {{ net.signal }}%
-								{% if net.secure %}| <span class="mdi mdi-wifi-strength-3-lock"></span>
-								{% else %}| <span class="mdi mdi-wifi-strength-3"></span>
-								{% endif %}
-							</div>
-						{% elif net.signal >=40 and net.signal < 60 %}
-							<div class="signal">Signal: {{ net.signal }}%
-								{% if net.secure %}| <span class="mdi mdi-wifi-strength-2-lock"></span>
-								{% else %}| <span class="mdi mdi-wifi-strength-2"></span>
-								{% endif %}
-							</div>
-						{% elif net.signal >=20 and net.signal < 40 %}
-							<div class="signal">Signal: {{ net.signal }}%
-								{% if net.secure %}| <span class="mdi mdi-wifi-strength-1-lock"></span>
-								{% else %}| <span class="mdi mdi-wifi-strength-1"></span>
-								{% endif %}
-							</div>
-						{% else %}
-							<div class="signal">Signal: {{ net.signal }}%
-								{% if net.secure %}| <span class="mdi mdi-wifi-strength-0-lock"></span>
-								{% else %}| <span class="mdi mdi-wifi-strength-0"></span>
-								{% endif %}
-							</div>
-						{% endif %}
-							
-						
-						{% if net.secure %}
-						<label><input type="checkbox" onchange="togglePassword(this)"> Provide Password</label>
-						<input type="password" name="password" class="password-input hidden" placeholder="Password">
-						{% endif %}
-						<label><input type="checkbox" name="save"> Save Network</label>
-						<input type="hidden" name="ssid" value="{{ net.ssid }}">
-						<button type="submit" class="btn connect-btn btn-success">Connect</button>
-					</form>
+							{% if net.secure %}| <span class="mdi mdi-wifi-strength-3-lock"></span>
+							{% else %}| <span class="mdi mdi-wifi-strength-3"></span>
+							{% endif %}
 				</div>
-				{% endfor %}
+				{% elif net.signal >=40 and net.signal < 60 %}
+					<div class="signal">Signal: {{ net.signal }}%
+					{% if net.secure %}| <span class="mdi mdi-wifi-strength-2-lock"></span>
+					{% else %}| <span class="mdi mdi-wifi-strength-2"></span>
+					{% endif %}
 			</div>
-		</div>
-
-		<!-- Connected & Known (20%) -->
-		<div class="col-sidebar">
-			<h3>Connections</h3>
-
-			<div class="card">
-				<h4>Ethernet</h4>
-				<ul class="netinfo">
-					<li><strong>IP:</strong> {{ netinfo_eth.ip or 'N/A' }}</li>
-					<li><strong>Gateway:</strong> {{ netinfo_eth.gateway or 'N/A' }}</li>
-					<li><strong>DNS:</strong> {{ netinfo_eth.dns or 'N/A' }}</li>
-				</ul>
-			</div>
-			<div class="card">
-				<h4>Wi-Fi</h4>
-				{% if current %}
-				<div><span class="signal-icon">📶</span> {{ current }}</div>
-				<ul class="netinfo">
-					<li><strong>IP:</strong> {{ netinfo_wifi.ip or 'N/A' }}</li>
-					<li><strong>Gateway:</strong> {{ netinfo_wifi.gateway or 'N/A' }}</li>
-					<li><strong>DNS:</strong> {{ netinfo_wifi.dns or 'N/A' }}</li>
-				</ul>
-				<form method="post" action="/disconnect">
-					<button type="submit" class="btn disconnect-btn btn-danger">Disconnect</button>
-				</form>
-				{% else %}
-				<div>Not connected.</div>
+			{% elif net.signal >=20 and net.signal < 40 %}
+				<div class="signal">Signal: {{ net.signal }}%
+				{% if net.secure %}| <span class="mdi mdi-wifi-strength-1-lock"></span>
+				{% else %}| <span class="mdi mdi-wifi-strength-1"></span>
 				{% endif %}
-			</div>
-
-			<div class="card">
-				<h4>Known Networks</h4>
-				{% if known_visible or known_hidden %}
-				{% for ssid, password in known_visible.items() %}
-				<form method="post" action="/connect">
-					<div class="known-entry">
-						<span>{{ ssid }}</span>
-						<input type="hidden" name="ssid" value="{{ ssid }}">
-						<input type="hidden" name="password" value="{{ password }}">
-						<button type="submit" class="btn connect-btn-sm btn-success">Connect</button>
-					</div>
-				</form>
-				{% endfor %}
-
-				{% for ssid in known_hidden %}
-				<div class="known-entry">
-					<span>{{ ssid }}</span>
-					<span class="not-found">(out of range)</span>
-				</div>
-				{% endfor %}
-				{% else %}
-				<div>No saved networks.</div>
-				{% endif %}
-			</div>
 		</div>
+		{% else %}
+		<div class="signal">Signal: {{ net.signal }}%
+			{% if net.secure %}| <span class="mdi mdi-wifi-strength-0-lock"></span>
+			{% else %}| <span class="mdi mdi-wifi-strength-0"></span>
+			{% endif %}
+		</div>
+		{% endif %}
+
+
+		{% if net.secure %}
+		<label><input type="checkbox" onchange="togglePassword(this)"> Provide Password</label>
+		<input type="password" name="password" class="password-input hidden" placeholder="Password">
+		{% endif %}
+		<label><input type="checkbox" name="save"> Save Network</label>
+		<input type="hidden" name="ssid" value="{{ net.ssid }}">
+		<button type="submit" class="btn connect-btn btn-success">Connect</button>
+		</form>
 	</div>
+	{% endfor %}
+</div>
+</div>
+
+<!-- Connected & Known (20%) -->
+<div class="col-sidebar">
+	<h3>Connections</h3>
+
+	<div class="card">
+		<h4>Ethernet</h4>
+		<ul class="netinfo">
+			<li><strong>IP:</strong> {{ netinfo_eth.ip or 'N/A' }}</li>
+			<li><strong>Gateway:</strong> {{ netinfo_eth.gateway or 'N/A' }}</li>
+			{% for dns_entry in netinfo_eth.dns %}
+				<li><strong>DNS:</strong> {{ dns_entry }}</li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="card">
+		<h4>Wi-Fi</h4>
+		{% if current %}
+		<div>
+			{% set signal = netinfo_wifi.signal %}
+			<span class="signal-icon">
+				{% if signal >= 80 %}
+				<span class="mdi mdi-wifi-strength-4"></span>
+				{% elif signal >= 60 %}
+				<span class="mdi mdi-wifi-strength-3"></span>
+				{% elif signal >= 40 %}
+				<span class="mdi mdi-wifi-strength-2"></span>
+				{% elif signal >= 20 %}
+				<span class="mdi mdi-wifi-strength-1"></span>
+				{% else %}
+				<span class="mdi mdi-wifi-strength-outline"></span>
+				{% endif %}
+			</span>
+			{{ netinfo_wifi.ssid }}
+		</div>
+		<ul class="netinfo">
+			<li><strong>IP:</strong> {{ netinfo_wifi.ip or 'N/A' }}</li>
+			<li><strong>Gateway:</strong> {{ netinfo_wifi.gateway or 'N/A' }}</li>
+			{% for dns_entry in netinfo_wifi.dns %}
+				<li><strong>DNS:</strong> {{ dns_entry }}</li>
+			{% endfor %}
+		</ul>
+		<form method="post" action="/disconnect">
+			<button type="submit" class="btn disconnect-btn btn-danger">Disconnect</button>
+		</form>
+		{% else %}
+		<div>Not connected.</div>
+		{% endif %}
+	</div>
+
+
+	<div class="card">
+		<h4>Known Networks</h4>
+		{% if known_visible or known_hidden %}
+		{% for ssid, password in known_visible.items() %}
+		<form method="post" action="/connect">
+			<div class="known-entry">
+				<span>{{ ssid }}</span>
+				<input type="hidden" name="ssid" value="{{ ssid }}">
+				<input type="hidden" name="password" value="{{ password }}">
+				<button type="submit" class="btn connect-btn-sm btn-success">Connect</button>
+			</div>
+		</form>
+		{% endfor %}
+
+		{% for ssid in known_hidden %}
+		<div class="known-entry">
+			<span>{{ ssid }}</span>
+			<span class="not-found">(out of range)</span>
+		</div>
+		{% endfor %}
+		{% else %}
+		<div>No saved networks.</div>
+		{% endif %}
+	</div>
+</div>
+</div>
 </div>
 
 <script>
