@@ -4,7 +4,8 @@ import json
 import os
 from control.wifi import disconnect_wifi, get_connection_info
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
+
 KNOWN_NETWORKS_FILE = 'known_networks.json'
 
 # Ensure known networks file exists
@@ -105,6 +106,37 @@ def disconnect():
         print("Disconnect failed")
     return redirect("/")
 
+import traceback
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+# @app.errorhandler(500)
+# def internal_error(e):
+#     tb = traceback.format_exc()
+#     app.logger.error("500 error: %s\n%s", e, tb)
+#     return "Internal Server Error", 500
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    scanned = scan_wifi()
+    known = load_known_networks()
+    current = get_current_connection()
+    info_wifi = get_connection_info('wlan0') if current else {}
+    info_eth = get_connection_info('eth0') if current else {}
+
+    # Hide known from scanned
+    known_visible = []
+    known_hidden = []
+    scanned_ssids = [net['ssid'] for net in scanned]
+    for ssid, pwd in known.items():
+        if ssid in scanned_ssids:
+            known_visible.append({ "ssid": ssid, "password": pwd })
+        else:
+            known_hidden.append(ssid)
+
+    return jsonify({
+        "scanned": scanned,
+        "known_visible": known_visible,
+        "known_hidden": known_hidden,
+        "current": current,
+        "wifi": info_wifi,
+        "eth": info_eth,
+    })

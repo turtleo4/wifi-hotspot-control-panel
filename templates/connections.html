@@ -1,0 +1,47 @@
+<!-- templates/partials/connections.html -->
+<h3>Connections</h3>
+<div class="card">
+    <h4>Ethernet</h4>
+    <ul class="netinfo">
+        <li><strong>IP:</strong> {{ netinfo_eth.ip or 'N/A' }}</li>
+        <li><strong>Gateway:</strong> {{ netinfo_eth.gateway or 'N/A' }}</li>
+        {% for dns_entry in netinfo_eth.dns %}
+        <li><strong>DNS:</strong> {{ dns_entry }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="card">
+    <h4>Wi-Fi</h4>
+    {% if current %}
+    <!-- <div> -->
+    {% set signal = netinfo_wifi.signal %}
+    <span class="signal-icon">
+        {% if signal >= 80 %}
+        <span class="mdi mdi-wifi-strength-4 wifi-signal-icon"></span> {{ netinfo_wifi.ssid }}
+        {% elif signal >= 60 %}
+        <span class="mdi mdi-wifi-strength-3 wifi-signal-icon"></span> {{ netinfo_wifi.ssid }}
+        {% elif signal >= 40 %}
+        <span class="mdi mdi-wifi-strength-2 wifi-signal-icon"></span> {{ netinfo_wifi.ssid }}
+        {% elif signal >= 20 %}
+        <span class="mdi mdi-wifi-strength-1 wifi-signal-icon"></span> {{ netinfo_wifi.ssid }}
+        {% else %}
+        <span class="mdi mdi-wifi-strength-outline wifi-signal-icon"></span> {{ netinfo_wifi.ssid }}
+        {% endif %}
+    </span>
+    {% comment %} {{ netinfo_wifi.ssid }} {% endcomment %}
+    <!-- </div> -->
+    <ul class="netinfo">
+        <li><strong>IP:</strong> {{ netinfo_wifi.ip or 'N/A' }}</li>
+        <li><strong>Gateway:</strong> {{ netinfo_wifi.gateway or 'N/A' }}</li>
+        {% for dns_entry in netinfo_wifi.dns %}
+        <li><strong>DNS:</strong> {{ dns_entry }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="/disconnect">
+        <button type="submit" class="btn disconnect-btn btn-danger">Disconnect</button>
+    </form>
+    {% else %}
+    <div>Not connected.</div>
+    {% endif %}
+</div>

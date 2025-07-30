@@ -1,0 +1,62 @@
+<h3>Available Networks</h3>
+<div class="network-grid" id="networks-container">
+  {% for net in networks %}
+    <div class="card network-card">
+      <form method="post" action="/connect">
+        <div class="network-header">
+          <strong>{{ net.ssid }}</strong>
+        </div>
+
+        {% if net.signal >= 80 %}
+          <div class="signal">
+            Signal: {{ net.signal }}%{% if net.secure %}
+              | <span class="mdi mdi-wifi-strength-4-lock"></span>
+            {% else %}
+              | <span class="mdi mdi-wifi-strength-4"></span>
+            {% endif %}
+          </div>
+        {% elif net.signal >= 60 and net.signal < 80 %}
+          <div class="signal">
+            Signal: {{ net.signal }}%{% if net.secure %}
+              | <span class="mdi mdi-wifi-strength-3-lock"></span>
+            {% else %}
+              | <span class="mdi mdi-wifi-strength-3"></span>
+            {% endif %}
+          </div>
+        {% elif net.signal >= 40 and net.signal < 60 %}
+          <div class="signal">
+            Signal: {{ net.signal }}%{% if net.secure %}
+              | <span class="mdi mdi-wifi-strength-2-lock"></span>
+            {% else %}
+              | <span class="mdi mdi-wifi-strength-2"></span>
+            {% endif %}
+          </div>
+        {% elif net.signal >= 20 and net.signal < 40 %}
+          <div class="signal">
+            Signal: {{ net.signal }}%{% if net.secure %}
+              | <span class="mdi mdi-wifi-strength-1-lock"></span>
+            {% else %}
+              | <span class="mdi mdi-wifi-strength-1"></span>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="signal">
+            Signal: {{ net.signal }}%{% if net.secure %}
+              | <span class="mdi mdi-wifi-strength-0-lock"></span>
+            {% else %}
+              | <span class="mdi mdi-wifi-strength-0"></span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if net.secure %}
+          <label><input type="checkbox" onchange="togglePassword(this)" />Provide Password</label>
+          <input type="password" name="password" class="password-input hidden" placeholder="Password" />
+        {% endif %}
+        <label><input type="checkbox" name="save" />Save Network</label>
+        <input type="hidden" name="ssid" value="{{ net.ssid }}" />
+        <button type="submit" class="btn connect-btn btn-success">Connect</button>
+      </form>
+    </div>
+  {% endfor %}
+</div>

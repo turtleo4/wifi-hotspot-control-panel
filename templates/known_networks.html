@@ -1,0 +1,22 @@
+<h4>Known Networks</h4>
+{% if known_visible or known_hidden %}
+  {% for ssid, password in known_visible.items() %}
+    <form method="post" action="/connect">
+      <div class="known-entry">
+        <span>{{ ssid }}</span>
+        <input type="hidden" name="ssid" value="{{ ssid }}" />
+        <input type="hidden" name="password" value="{{ password }}" />
+        <button type="submit" class="btn connect-btn-sm btn-success">Connect</button>
+      </div>
+    </form>
+  {% endfor %}
+
+  {% for ssid in known_hidden %}
+    <div class="known-entry">
+      <span>{{ ssid }}</span>
+      <span class="not-found">(out of range)</span>
+    </div>
+  {% endfor %}
+{% else %}
+  <div>No saved networks.</div>
+{% endif %}
