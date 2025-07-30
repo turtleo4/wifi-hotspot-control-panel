@@ -72,8 +72,8 @@ WantedBy=multi-user.target
 # Enable and start the service
 sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
-sudo systemctl enable lh-control
-sudo systemctl start lh-control
+sudo systemctl enable wifi-hotspot-control-panel
+sudo systemctl start wifi-hotspot-control-panel
 ```
 ### NGINX
 
@@ -92,13 +92,13 @@ server {
     }
 
     location /static/ {
-        alias /opt/wifi-hotspot-control-panel/static/;
+        alias /www-data/wifi-hotspot-control-panel/static/;
     }
 }
 ```
 #### Enable it:
 ``` bash
-sudo ln -s /etc/nginx/sites-available/lh-control /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/wifi-hotspot-control-panel /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
