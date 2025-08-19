@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect
-import subprocess
-import json
-import os
+import json, os, jsonify, subprocess
 from control.wifi import disconnect_wifi, get_connection_info
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))

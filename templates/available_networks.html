@@ -1,4 +1,4 @@
-<h3>Available Networks</h3>
+<h3>Available Networks<span class="mdi mdi-wifi-refresh text-success" id="refreshWiFiList"></span></h3>
 <div class="network-grid" id="networks-container">
   {% for net in networks %}
     <div class="card network-card">
@@ -55,7 +55,10 @@
         {% endif %}
         <label><input type="checkbox" name="save" />Save Network</label>
         <input type="hidden" name="ssid" value="{{ net.ssid }}" />
-        <button type="submit" class="btn connect-btn btn-success">Connect</button>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="submit" class="btn connect-btn btn-primary">Connect</button>
+        </div>
+        
       </form>
     </div>
   {% endfor %}
