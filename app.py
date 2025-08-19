@@ -54,7 +54,9 @@ def index():
     scanned = scan_wifi()
     known = load_known_networks()
     current = get_current_connection()
-    info_wifi = get_connection_info('wlan0') if current else {}
+    info_wifi_0 = get_connection_info('wlan0') if current else {}
+    info_wifi_1 = get_connection_info('wlan1') if current else {}
+    info_wifi_2 = get_connection_info('wlan2') if current else {}
     info_eth = get_connection_info('eth0') if current else {}
 
     known_visible = {}
@@ -76,7 +78,9 @@ def index():
                            known_visible=known_visible,
                            known_hidden=known_hidden,
                            current=current,
-                           netinfo_wifi=info_wifi,
+                           netinfo_wifi_0=info_wifi_0,
+                           netinfo_wifi_1=info_wifi_1,
+                           netinfo_wifi_2=info_wifi_2,
                            netinfo_eth=info_eth)
 
 @app.route('/connect', methods=['POST'])
