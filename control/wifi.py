@@ -33,12 +33,13 @@ def get_connection_info(interface):
                     encoding='utf-8'
                 ).strip()
                 parts = raw.split(':')
-                return parts[1].strip() if len(parts) > 1 else None
+                return ':'.join(parts[1:]).strip() if len(parts) > 1 else None
             except subprocess.CalledProcessError:
                 return None
 
         ip = safe_extract('IP4.ADDRESS')
         gateway = safe_extract('IP4.GATEWAY')
+        mac = safe_extract('GENERAL.HWADDR')  
         dns_raw = subprocess.check_output(
             ['nmcli', '-t', '-f', 'IP4.DNS', 'device', 'show', interface],
             encoding='utf-8'
@@ -50,6 +51,7 @@ def get_connection_info(interface):
             "signal": int(signal),
             "ip": ip,
             "gateway": gateway,
+            "mac": mac,
             "dns": dns_list
         }
 

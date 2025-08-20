@@ -1,6 +1,6 @@
 <html>
   <meta charset="UTF-8" />
-  <title>NanoPi Wi-Fi Manager</title>
+  <title>NanoPi Wi-Fi HotSpot Manager</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/materialdesignicons.min.css') }}" />
@@ -8,22 +8,16 @@
 </html>
 <body>
   <div class="container">
-    <h1 class="mb-4 page-header">NanoPi Wi-Fi Manager</h1>
+    <h1 class="mb-4 page-header">NanoPi Wi-Fi HotSpot Manager</h1>
     <div class="row">
-      <!-- Available Networks (80%) -->
-      <div class="col-available">
+      <div id="connections-container">
+        {% include 'connections.html' %}
+      </div>
+      <div class="col-10">
         {% include 'available_networks.html' %}
       </div>
-
-      <!-- Connected & Known (20%) -->
-      <div class="col-sidebar">
-        <div id="connections-container">
-          {% include 'connections.html' %}
-        </div>
-        <div class="card">
-          {% include 'known_networks.html' %}
-        </div>
-        
+      <div class="col-2">
+        {% include 'known_networks.html' %}
       </div>
     </div>
   </div>
@@ -39,5 +33,9 @@
         pwInput.value = ''
       }
     }
+    const refreshButton = document.getElementById('refreshButton');
+    refreshButton.addEventListener('click', () => {
+      window.location.reload();
+    });
   </script>
 </body>

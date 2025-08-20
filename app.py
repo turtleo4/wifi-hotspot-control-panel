@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-import json, os, jsonify, subprocess
+import json, os, subprocess
 from control.wifi import disconnect_wifi, get_connection_info
 
 app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
@@ -121,7 +121,9 @@ def get_status():
     scanned = scan_wifi()
     known = load_known_networks()
     current = get_current_connection()
-    info_wifi = get_connection_info('wlan0') if current else {}
+    info_wifi_0 = get_connection_info('wlan0') if current else {}
+    info_wifi_1 = get_connection_info('wlan1') if current else {}
+    info_wifi_2 = get_connection_info('wlan2') if current else {}
     info_eth = get_connection_info('eth0') if current else {}
 
     # Hide known from scanned
@@ -139,6 +141,8 @@ def get_status():
         "known_visible": known_visible,
         "known_hidden": known_hidden,
         "current": current,
-        "wifi": info_wifi,
+        "wifi_0": info_wifi_0,
+        "wifi_1": info_wifi_1,
+        "wifi_2": info_wifi_2,
         "eth": info_eth,
     })

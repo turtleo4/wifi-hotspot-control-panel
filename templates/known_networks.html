@@ -1,20 +1,32 @@
-<h4>Known Networks</h4>
+<h3>Known Networks</h3>
 {% if known_visible or known_hidden %}
-  {% for ssid, password in known_visible.items() %}
-    <form method="post" action="/connect">
-      <div class="known-entry">
-        <span>{{ ssid }}</span>
-        <input type="hidden" name="ssid" value="{{ ssid }}" />
-        <input type="hidden" name="password" value="{{ password }}" />
-        <button type="submit" class="btn connect-btn-sm btn-success">Connect</button>
+  <div class="row">
+    {% for ssid, password in known_visible.items() %}
+      <div class="col-12">
+        <div class="card known-ssid-card">
+          <div class="card-header known-header">{{ ssid }}</div>
+          <div class="card-body">
+            <form method="post" action="/connect">
+              <div class="known-entry">
+                <span>Click to connect</span>
+                <input type="hidden" name="ssid" value="{{ ssid }}" />
+                <input type="hidden" name="password" value="{{ password }}" />
+                <button type="submit" class="btn connect-btn-sm btn-success">Connect</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </form>
-  {% endfor %}
-
+    {% endfor %}
+  </div>
   {% for ssid in known_hidden %}
-    <div class="known-entry">
-      <span>{{ ssid }}</span>
-      <span class="not-found">(out of range)</span>
+    <div class="row">
+      <div class="col-12">
+        <div class="known-entry">
+          <span>{{ ssid }}</span>
+          <span class="not-found">(out of range)</span>
+        </div>
+      </div>
     </div>
   {% endfor %}
 {% else %}

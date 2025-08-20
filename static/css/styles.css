@@ -1,4 +1,11 @@
+@media only screen and (min-width: 1400px) { 
+  .container {
+    max-width: 1800px;
+  } 
+}
+
 /* Layout Columns */
+/* 
 .col-available {
   width: 80%;
   float: left;
@@ -8,7 +15,7 @@
 .col-sidebar {
   width: 20%;
   float: left;
-}
+} */
 
 /* Available Network Cards */
 .network-grid {
@@ -45,9 +52,9 @@
   font-size: 0.8rem;
 }
 
-.disconnect-btn {
+/* .disconnect-btn {
   margin-top: 0.5rem;
-}
+} */
 
 /* Hidden password field */
 .password-input.hidden {
@@ -101,4 +108,36 @@
 
 .wifi-signal-icon {
   color: #183bb8;
+}
+
+.connection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+}
+
+.btn-disconnect {
+  margin: 0;
+}
+
+.connection-cards {
+  height: 225px;
+  margin-bottom: 1rem;
+}
+
+.connection-row {
+  margin-bottom: 2rem;
+}
+
+.known-ssid-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+#refreshWiFiList {
+  font-size: 2rem;
 }
